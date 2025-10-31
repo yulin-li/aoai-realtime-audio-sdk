@@ -360,6 +360,19 @@ class InputAudioBufferSpeechStoppedMessage(ServerMessageBase):
     item_id: str
 
 
+class InputAudioBufferTimeoutTriggeredMessage(ServerMessageBase):
+    """
+    This event is sent when the idle timeout is triggered after a period of inactivity.
+    It indicates that the user has been silent for longer than the configured idle_timeout_ms.
+    """
+
+    type: Literal["input_audio_buffer.timeout_triggered"] = "input_audio_buffer.timeout_triggered"
+    item_id: str
+    previous_item_id: Optional[str] = None
+    audio_start_ms: int
+    audio_end_ms: int
+
+
 ResponseItemStatus = Literal["in_progress", "completed", "incomplete"]
 
 
@@ -719,6 +732,7 @@ ServerMessageType = Annotated[
         InputAudioBufferClearedMessage,
         InputAudioBufferSpeechStartedMessage,
         InputAudioBufferSpeechStoppedMessage,
+        InputAudioBufferTimeoutTriggeredMessage,
         ItemCreatedMessage,
         ItemRetrievedMessage,
         ItemTruncatedMessage,
@@ -765,6 +779,8 @@ def create_message_from_dict(data: dict) -> ServerMessageType:
             return InputAudioBufferSpeechStartedMessage(**data)
         case "input_audio_buffer.speech_stopped":
             return InputAudioBufferSpeechStoppedMessage(**data)
+        case "input_audio_buffer.timeout_triggered":
+            return InputAudioBufferTimeoutTriggeredMessage(**data)
         case "conversation.item.created":
             return ItemCreatedMessage(**data)
         case "conversation.item.retrieved":
