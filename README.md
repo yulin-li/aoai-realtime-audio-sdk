@@ -1,3 +1,6 @@
+> [!WARNING]
+> This project is not actively maintained and does not match the latest, general availability state of the OpenAI Realtime API. The code in this repository is retained as reference for interim materials before official library support was in place. Please see official library support available across all OpenAI libraries (Python, JS, Java, Go, .NET, Ruby) for new solutions.
+
 # Azure OpenAI GPT-4o Audio and /realtime: Public Preview Documentation
 
 Welcome to the Public Preview for Azure OpenAI `/realtime` using `gpt-4o-realtime-preview`! This repository provides documentation, standalone libraries, and sample code for using `/realtime` -- applicable to both Azure OpenAI and standard OpenAI v1 endpoint use.

@@ -11,6 +11,7 @@ export {
   AzureCustomVoice,
   AzureStandardVoice,
   ClientMessageBase,
+  ConnectionClosedMessage,
   EOUDetection,
   ErrorMessage,
   FunctionCallItem,

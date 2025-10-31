@@ -288,6 +288,10 @@ class ErrorMessage(ServerMessageBase):
     error: RealtimeError
 
 
+class UnknownMessage(ServerMessageBase):
+    type: str = "unknown"
+
+
 class Session(BaseModel):
     id: str
     model: str
@@ -725,6 +729,7 @@ UserMessageType = Annotated[
 ]
 ServerMessageType = Annotated[
     Union[
+        UnknownMessage,
         ErrorMessage,
         SessionCreatedMessage,
         SessionUpdatedMessage,

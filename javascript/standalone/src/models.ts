@@ -326,6 +326,12 @@ export interface ErrorMessage extends ServerMessageBase {
   error: RealtimeError;
 }
 
+export interface ConnectionClosedMessage extends ServerMessageBase {
+  type: "connection.closed";
+  code?: number;
+  reason?: string;
+}
+
 export interface Session {
   id: string;
   model: string;
@@ -682,6 +688,7 @@ export type UserMessageType =
 
 export type ServerMessageType =
   | ErrorMessage
+  | ConnectionClosedMessage
   | SessionCreatedMessage
   | SessionUpdatedMessage
   | InputAudioBufferCommittedMessage
