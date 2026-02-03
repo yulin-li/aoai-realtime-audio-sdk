@@ -53,6 +53,8 @@ export {
   ResponseAudioDoneMessage,
   ResponseAudioTranscriptDeltaMessage,
   ResponseAudioTranscriptDoneMessage,
+  ResponseVideoDeltaMessage,
+  ResponseVideoDoneMessage,
   ResponseBlendShapeMessage,
   ResponseCancelledDetails,
   ResponseCancelMessage,
@@ -124,7 +126,8 @@ export {
   RTMessageContent,
   RTMessageItem,
   RTResponse,
-  RTTextContent
+  RTTextContent,
+  RTVideoContent
 } from "./client";
 
 export { RTAzureOpenAIOptions, RTOpenAIOptions } from "./util/interfaces";

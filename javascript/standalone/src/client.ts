@@ -26,6 +26,8 @@ import {
   ResponseMessageItem,
   ResponseStatus,
   ResponseStatusDetails,
+  ResponseVideoDeltaMessage,
+  ResponseVideoDoneMessage,
   ServerMessageType,
   Session,
   SessionUpdateParams,
@@ -176,6 +178,41 @@ export class RTError extends Error {
 
   get eventId(): string | undefined {
     return this.errorDetails.event_id;
+  }
+}
+
+export class RTVideoContent {
+  public type: "video" = "video";
+
+  private constructor(
+    public responseId: string,
+    public itemId: string,
+    public outputIndex: number,
+    public contentIndex: number,
+    public delta: string,
+    public done: boolean,
+  ) { }
+
+  static fromDelta(message: ResponseVideoDeltaMessage): RTVideoContent {
+    return new RTVideoContent(
+      message.response_id,
+      message.item_id,
+      message.output_index,
+      message.content_index,
+      message.delta,
+      false,
+    );
+  }
+
+  static fromDone(message: ResponseVideoDoneMessage): RTVideoContent {
+    return new RTVideoContent(
+      message.response_id,
+      message.item_id,
+      message.output_index,
+      message.content_index,
+      "",
+      true,
+    );
   }
 }
 
@@ -1066,7 +1103,7 @@ export class RTClient {
     return undefined;
   }
 
-  async *events(): AsyncIterable<RTInputAudioItem | RTResponse> {
+  async *events(): AsyncIterable<RTInputAudioItem | RTResponse | RTVideoContent> {
     // TODO: Add the updated quota message as a control type of event.
     try {
       this.iterating = true;
@@ -1074,7 +1111,9 @@ export class RTClient {
         const message = await this.messageQueue.receive(
           (m) =>
             m.type === "input_audio_buffer.speech_started" ||
-            m.type === "response.created",
+            m.type === "response.created" ||
+            m.type === "response.video.delta" ||
+            m.type === "response.video.done",
         );
         if (message === null) {
           break;
@@ -1096,6 +1135,10 @@ export class RTClient {
             this.messageQueue,
             this.client,
           );
+        } else if (message.type === "response.video.delta") {
+          yield RTVideoContent.fromDelta(message);
+        } else if (message.type === "response.video.done") {
+          yield RTVideoContent.fromDone(message);
         } else {
           throw new Error("Unexpected message type");
         }

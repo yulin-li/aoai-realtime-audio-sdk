@@ -646,6 +646,23 @@ export interface ResponseAudioDoneMessage extends ServerMessageBase {
   content_index: number;
 }
 
+export interface ResponseVideoDeltaMessage extends ServerMessageBase {
+  type: "response.video.delta";
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+  delta: string;
+}
+
+export interface ResponseVideoDoneMessage extends ServerMessageBase {
+  type: "response.video.done";
+  response_id: string;
+  item_id: string;
+  output_index: number;
+  content_index: number;
+}
+
 export interface ResponseFunctionCallArgumentsDeltaMessage
   extends ServerMessageBase {
   type: "response.function_call_arguments.delta";
@@ -730,6 +747,8 @@ export type ServerMessageType =
   | ResponseAudioTranscriptDoneMessage
   | ResponseAudioDeltaMessage
   | ResponseAudioDoneMessage
+  | ResponseVideoDeltaMessage
+  | ResponseVideoDoneMessage
   | ResponseBlendShapeMessage
   | ResponseFunctionCallArgumentsDeltaMessage
   | ResponseFunctionCallArgumentsDoneMessage

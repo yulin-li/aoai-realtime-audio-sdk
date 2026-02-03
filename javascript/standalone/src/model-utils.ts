@@ -35,6 +35,8 @@ export const isServerMessageType = (
     "response.audio_transcript.done",
     "response.audio.delta",
     "response.audio.done",
+    "response.video.delta",
+    "response.video.done",
     "response.function_call_arguments.delta",
     "response.function_call_arguments.done",
     "rate_limits.updated",
